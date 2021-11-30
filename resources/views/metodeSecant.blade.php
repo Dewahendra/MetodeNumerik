@@ -52,10 +52,10 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Halaman:</h6>
-                        <a class="collapse-item active" href="http://127.0.0.1:8000/">Metode Bagi Dua</a>
+                        <a class="collapse-item" href="http://127.0.0.1:8000/">Metode Bagi Dua</a>
                         <a class="collapse-item" href="http://127.0.0.1:8000/metode-newton-raphson">Metode Newton Raphson</a>
                         <a class="collapse-item" href="http://127.0.0.1:8000/metode-regula-falsi">Metode Regulasi Falsi</a>
-                        <a class="collapse-item" href="http://127.0.0.1:8000/metode-secant">Metode Secant</a>
+                        <a class="collapse-item active" href="http://127.0.0.1:8000/metode-secant">Metode Secant</a>
                         <a class="collapse-item" href="http://127.0.0.1:8000/metode-titik-tetap">Metode Titik Tetap</a>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800 text text-center">Metode Bagi Dua</h1>
+                    <h1 class="h3 mb-4 text-gray-800 text text-center">Metode Secant</h1>
                      <div class="container-fluid py-4">
                         <div class="table-responsive">
                             <table class="table table-center table-hover datatable">
@@ -175,7 +175,7 @@
                                         $x1 = 4;
                                         $x = $x0;
                                         $x_prev = 0;
-  
+            
                                         function f($x)
                                         {
                                             return log($x) + ($x - 5);

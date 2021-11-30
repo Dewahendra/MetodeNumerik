@@ -52,9 +52,9 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Halaman:</h6>
-                        <a class="collapse-item active" href="http://127.0.0.1:8000/">Metode Bagi Dua</a>
+                        <a class="collapse-item" href="http://127.0.0.1:8000/">Metode Bagi Dua</a>
                         <a class="collapse-item" href="http://127.0.0.1:8000/metode-newton-raphson">Metode Newton Raphson</a>
-                        <a class="collapse-item" href="http://127.0.0.1:8000/metode-regula-falsi">Metode Regulasi Falsi</a>
+                        <a class="collapse-item active" href="http://127.0.0.1:8000/metode-regula-falsi">Metode Regulasi Falsi</a>
                         <a class="collapse-item" href="http://127.0.0.1:8000/metode-secant">Metode Secant</a>
                         <a class="collapse-item" href="http://127.0.0.1:8000/metode-titik-tetap">Metode Titik Tetap</a>
                     </div>
@@ -156,40 +156,60 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800 text text-center">Metode Bagi Dua</h1>
+                    <h1 class="h3 mb-4 text-gray-800 text text-center">Metode Regulasi Falsi</h1>
                      <div class="container-fluid py-4">
                         <div class="table-responsive">
                             <table class="table table-center table-hover datatable">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-center">Iterasi</th>
-                                        <th class="text-center">X<small>r</small></th>
-                                        <th class="text-center">| X<small>r+10</small> - X<small>r</small> |</th>
+                                        <th class="text-center">a</th>
+                                        <th class="text-center">c</th>
+                                        <th class="text-center">b</th>
+                                        <th class="text-center">f(a)</th>
+                                        <th class="text-center">f(c)</th>
+                                        <th class="text-center">f(b)</th>
+                                        <th class="text-center">Selang Baru</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php
                                         $i = 0;
                                         $eps = 0.000001;
-                                        $x0 = 3.2;
-                                        $x1 = 4;
-                                        $x = $x0;
-                                        $x_prev = 0;
-  
-                                        function f($x)
-                                        {
-                                            return log($x) + ($x - 5);
-                                        }
+                                        $b = 4;
+                                        $a = 3.2;
                                     @endphp
-                                    @while (abs($x - $x_prev) >= $eps)
-                                        @php $x_prev = $x1; @endphp
-                                        @php $x = $x - (f($x)*($x1-$x0)/(f($x1)-f($x0))); @endphp
-                                        @php $x0 = $x1; @endphp
-                                        @php $x1 = $x; @endphp
+                                    @while (!($a - $b) < $eps)
+                                        @php
+                                            $fa = log($a) + ($a - 5);
+                                            $fb = log($b) + ($b - 5);
+                                            $c = $b - ($fb * ($b - $a)) / ($fb - $fa);
+                                            $fc = log($c) + ($c - 5);
+
+                                            if (abs($fc) < $eps) {
+                                                $a = $c;
+                                                $b = $c;
+                                            } else {
+                                                if ($fa * $fc < 0) {
+                                                    $b = $c;
+                                                } else {
+                                                    $a = $c;
+                                                }
+                                            }
+                                        @endphp
                                         <tr>
                                             <td class="text-center">{{ $i++ }}</td>
-                                            <td class="text-center">{{ number_format($x_prev, 6) }}</td>
-                                            <td class="text-center">{{ number_format($x_prev - $x, 6) }}</td>
+                                            <td class="text-center">{{ number_format($a, 6) }}</td>
+                                            <td class="text-center">{{ number_format($c, 6) }}</td>
+                                            <td class="text-center">{{ number_format($b, 6) }}</td>
+                                            <td class="text-center">{{ number_format($fa, 6) }}</td>
+                                            <td class="text-center">{{ number_format($fc, 6) }}</td>
+                                            <td class="text-center">{{ number_format($fb, 6) }}</td>
+                                            @if ($fa * $fc < 0)
+                                                <td class="text-center">[a, c]</td>
+                                            @else
+                                                <td class="text-center">[c, b]</td>
+                                            @endif
                                         </tr>
                                     @endwhile
                                 </tbody>
